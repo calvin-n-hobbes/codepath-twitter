@@ -1,5 +1,6 @@
 package com.codepath.apps.mytwitterapp;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -67,8 +68,9 @@ public class ComposeActivity extends Activity {
      * Posts tweet and finishes the activity when the user clicks the "Tweet" button
      */
     public void onPost(MenuItem item) {
-        Log.i("kuoj", "Posting tweet");
+        Log.i("kuoj", "Posting tweet (" + etTweet.getText().toString() + ")");
         MyTwitterApp.getRestClient().postTweet(etTweet.getText().toString(), new JsonHttpResponseHandler() {
+            @Override
             public void onSuccess(JSONObject json) {
                 Log.i("kuoj", "Posted tweet");
                 // create new Tweet object out of response and pass it back to calling activity
@@ -77,6 +79,16 @@ public class ComposeActivity extends Activity {
                 data.putExtra("newTweet", newTweet);
                 ComposeActivity.this.setResult(RESULT_OK, data);
                 ComposeActivity.this.finish();
+            }
+
+            @SuppressWarnings("unused")
+            public void onFailure(int statusCode, Throwable e, JSONObject jsonObj) {
+                Log.e("kuoj", "Error (" + statusCode + ") posting tweet");
+            }
+
+            @SuppressWarnings("unused")
+            public void onFailure(int statusCode, Throwable e, JSONArray jsonArr) {
+                Log.e("kuoj", "Error (" + statusCode + ") posting tweet");
             }
         });
     }

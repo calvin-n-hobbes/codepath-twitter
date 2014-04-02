@@ -6,9 +6,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-
 public class User implements Serializable {
     private static final long serialVersionUID = 6270162077468756896L;
     boolean defaultProfileImage;
