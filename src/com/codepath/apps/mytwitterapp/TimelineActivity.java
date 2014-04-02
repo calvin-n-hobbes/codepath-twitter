@@ -76,8 +76,10 @@ public class TimelineActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ( POST_TWEET_REQUEST == requestCode ) {
+            // show the new tweet in the timeline immediately after posting
             if ( RESULT_OK == resultCode ) {
-                // refresh the timeline
+                // Option 1: refresh the timeline
+                /*
                 Log.i("kuoj", "Refreshing the timeline");
                 MyTwitterApp.getRestClient().getHomeTimeLine(new JsonHttpResponseHandler() {
                     @Override
@@ -87,6 +89,12 @@ public class TimelineActivity extends Activity {
                         adapter.addAll(tweets);
                     }
                 });
+                */
+
+                // Option 2: inject the new tweet into the list adapter
+                Log.i("kuoj", "Added new tweet to timeline list adapter");
+                Tweet tw = (Tweet) data.getExtras().getSerializable("newTweet");
+                adapter.insert(tw, 0);
             }
             else if ( RESULT_CANCELED == resultCode ) {
                 Log.i("kuoj", "Compose canceled");

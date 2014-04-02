@@ -3,6 +3,7 @@ package com.codepath.apps.mytwitterapp;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mytwitterapp.models.Tweet;
 import com.codepath.apps.mytwitterapp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -69,7 +71,11 @@ public class ComposeActivity extends Activity {
         MyTwitterApp.getRestClient().postTweet(etTweet.getText().toString(), new JsonHttpResponseHandler() {
             public void onSuccess(JSONObject json) {
                 Log.i("kuoj", "Posted tweet");
-                ComposeActivity.this.setResult(RESULT_OK);
+                // create new Tweet object out of response and pass it back to calling activity
+                Tweet newTweet = new Tweet(json);
+                Intent data = new Intent();
+                data.putExtra("newTweet", newTweet);
+                ComposeActivity.this.setResult(RESULT_OK, data);
                 ComposeActivity.this.finish();
             }
         });

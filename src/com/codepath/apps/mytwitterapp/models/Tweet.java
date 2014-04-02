@@ -1,9 +1,11 @@
 package com.codepath.apps.mytwitterapp.models;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,11 +13,9 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-
-public class Tweet {
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+public class Tweet implements Serializable {
+    private static final long serialVersionUID = -8056281900039834084L;
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
 
     String source;
     String text;
@@ -34,7 +34,6 @@ public class Tweet {
         try {
             this.text = jsonObject.getString("text");
             createdAt = jsonObject.getString("created_at");
-            //SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
             this.timestamp = formatter.parse(createdAt);
             tweetId = jsonObject.getLong("id");
             this.user = User.fromJson(jsonObject.getJSONObject("user"));
