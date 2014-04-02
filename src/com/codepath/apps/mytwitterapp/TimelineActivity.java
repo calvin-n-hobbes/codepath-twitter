@@ -10,55 +10,67 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.codepath.apps.mytwitterapp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
+
 public class TimelineActivity extends Activity {
     public static final int POST_TWEET_REQUEST = 1648;
 
-    private TweetsAdapter adapter = null;
+    private ArrayAdapter<Tweet> adapter = null;
+    private PullToRefreshListView lvTweets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        MyTwitterApp.getRestClient().getHomeTimeLine(new JsonHttpResponseHandler() {
+        adapter = new TweetsAdapter(getBaseContext());
+        lvTweets = (PullToRefreshListView) findViewById(R.id.lvTweets);
+        lvTweets.setAdapter(adapter);
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
             @Override
-            public void onSuccess(JSONArray jsonTweets) {
-                Log.d("kuoj", jsonTweets.toString());
-                ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
-                adapter = new TweetsAdapter(getBaseContext(), tweets);
-                ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
-                lvTweets.setAdapter(adapter);
-                lvTweets.setOnScrollListener(new EndlessScrollListener() {
-                    @Override
-                    public void onLoadMore(int page, int totalItemsCount) {
-                        getNextOldestTweets();
-                    }
-                });
+            public void onLoadMore(int page, int totalItemsCount) {
+                getNextOldestTweets();
             }
         });
+        lvTweets.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("kuoj", "Refreshing timeline");
+                fetchTimelineAsync();
+            }
+        });
+
+        // call endpoint to retrieve the timeline for the first time
+        fetchTimelineAsync();
     }
 
     /**
      * Returns next page of tweets.
      * Because Twitter returns results in reverse chronological order, the
      * last tweet in the ArrayAdapter has the lowest ID, which is upper
-     * bound for the next page's results. 
+     * bound for the next page's results.
      */
     private void getNextOldestTweets() {
+        // avoid ArrayOutOfBoundsException
+        if ( adapter.isEmpty() ) return;
+
         long lowestId = adapter.getItem(adapter.getCount() - 1).getTweetId();
-        MyTwitterApp.getRestClient().getHomeTimeLineWithMaxId(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray jsonTweets) {
-                Log.d("kuoj", jsonTweets.toString());
-                ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
-                adapter.addAll(tweets);
-            }
-        }, lowestId - 1);
+        MyTwitterApp.getRestClient().getHomeTimeLineWithMaxId(scrollHandler, lowestId - 1);
+    }
+
+    /**
+     * Asynchronously returns tweets on the home timeline.
+     * This is called for the first time as well as subsequent refreshes, but not for scrolling/pagination updates.
+     */
+    private void fetchTimelineAsync() {
+        MyTwitterApp.getRestClient().getHomeTimeLine(refreshHandler);
     }
 
     @Override
@@ -115,4 +127,44 @@ public class TimelineActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 */
+
+    // JSON response handler for refresh case (clear adapter before enqueuing tweets)
+    private JsonHttpResponseHandler refreshHandler = new JsonHttpResponseHandler() {
+        @Override
+        public void onSuccess(JSONArray jsonTweets) {
+            clearAndAddTweets(jsonTweets);
+            lvTweets.onRefreshComplete();
+        }
+
+        @Override
+        public void onFailure(Throwable e) {
+            Log.e("kuoj", "Error in JSON refresh handler");
+            e.printStackTrace();
+        }
+    };
+
+    // JSON response handler for endless scroll case (enqueue tweets without clearing the adapter)
+    private JsonHttpResponseHandler scrollHandler = new JsonHttpResponseHandler() {
+        @Override
+        public void onSuccess(JSONArray jsonTweets) {
+            addTweets(jsonTweets);
+        }        
+
+        @Override
+        public void onFailure(Throwable e) {
+            Log.e("kuoj", "Error in JSON scroll handler");
+            e.printStackTrace();
+        }
+    };
+
+    private void clearAndAddTweets(JSONArray jsonTweets) {
+        adapter.clear();
+        addTweets(jsonTweets);
+    }
+
+    private void addTweets(JSONArray jsonTweets) {
+        Log.d("kuoj", jsonTweets.toString());
+        ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
+        adapter.addAll(tweets);        
+    }
 }

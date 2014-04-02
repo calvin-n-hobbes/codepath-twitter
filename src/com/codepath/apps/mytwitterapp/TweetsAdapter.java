@@ -18,6 +18,10 @@ import com.codepath.apps.mytwitterapp.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetsAdapter extends ArrayAdapter<Tweet> {
+    public TweetsAdapter(Context context) {
+        super(context, 0);
+    }
+
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         super(context, 0, tweets);
     }
