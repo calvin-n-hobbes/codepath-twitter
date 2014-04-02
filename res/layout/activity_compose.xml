@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codepath.apps.mytwitterapp.ComposeActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <ImageView
+        android:id="@+id/ivCurrentUserProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvCurrentUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivCurrentUserProfile"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ivCurrentUserProfile"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvCurrentUserHandle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCurrentUserName"
+        android:layout_below="@+id/tvCurrentUserName"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#777777" />
+
+    <EditText
+        android:id="@+id/etTweet"
+        android:hint="@string/hint_tweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivCurrentUserProfile"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ivCurrentUserProfile"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:maxLength="140"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/tvTweetLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etTweet"
+        android:layout_below="@+id/etTweet"
+        android:layout_marginLeft="5dp"
+        android:text="@string/tweet_chars_remaining"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#777777" />
+    
+</RelativeLayout>
+

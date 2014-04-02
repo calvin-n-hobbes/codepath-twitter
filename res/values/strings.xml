@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CodePath Twitter App</string>
+    <string name="action_tweet">Tweet</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="login_label">Log in</string>
+    <string name="title_activity_timeline">Your Home Timeline</string>
+    <string name="title_activity_compose">Compose</string>
+    <string name="hint_tweet">有什麼新的事物?</string>
+    <string name="tweet_chars_remaining">%1$d character(s) remaining</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
