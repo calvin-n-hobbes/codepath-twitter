@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="TwitterActionBarTheme"
+           parent="android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/TwitterActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="TwitterActionBar"
+           parent="android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#1dcaff</item>
+    </style>
+</resources>
