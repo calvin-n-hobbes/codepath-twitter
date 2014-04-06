@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,13 +23,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ComposeActivity extends Activity {
     private EditText etTweet;
-    private TextView tvLength;
+    private TextView tvLength, tvRemainingChars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        Log.i("kuoj", "Creating activity");
         // unpack current user
         User me = MyTwitterApp.getCurrentUser();
         assert me != null;
@@ -49,6 +51,7 @@ public class ComposeActivity extends Activity {
                 int remaining = 140 - s.length();
                 String remainStr = String.format(getResources().getString(R.string.tweet_chars_remaining), remaining);
                 tvLength.setText(remainStr);
+                tvRemainingChars.setText(String.valueOf(remaining));
             }
 
             @Override
@@ -91,6 +94,17 @@ public class ComposeActivity extends Activity {
                 Log.e("kuoj", "Error (" + statusCode + ") posting tweet");
             }
         });
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.i("kuoj", "Preparing menu");
+        // get handle to label TextView
+        MenuItem miLabel = menu.findItem(R.id.char_label);
+        tvRemainingChars = (TextView) miLabel.getActionView();
+        tvRemainingChars.setTextColor(Color.GRAY);
+        tvRemainingChars.setText(String.valueOf(140));
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

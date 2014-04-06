@@ -3,6 +3,12 @@
     tools:context="com.codepath.apps.mytwitterapp.ComposeActivity" >
 
     <item
+        android:id="@+id/char_label"
+        android:actionViewClass="android.widget.TextView"
+        android:showAsAction="always"
+        android:title="140" />
+
+    <item
         android:id="@+id/action_tweet"
         android:onClick="onPost"
         android:showAsAction="always"

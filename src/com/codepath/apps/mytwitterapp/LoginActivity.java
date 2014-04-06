@@ -44,7 +44,8 @@ public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
                 e.printStackTrace();
             }
         });
-    	Intent i = new Intent(this, TimelineActivity.class);
+    	//Intent i = new Intent(this, TimelineActivity.class);
+        Intent i = new Intent(this, TweetsActivity.class);
     	startActivity(i);
     }
     
