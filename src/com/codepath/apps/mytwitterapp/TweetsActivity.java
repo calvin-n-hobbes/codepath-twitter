@@ -1,13 +1,15 @@
 package com.codepath.apps.mytwitterapp;
 
-import com.codepath.apps.mytwitterapp.models.Tweet;
-
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.codepath.apps.mytwitterapp.models.Tweet;
 
 public class TweetsActivity extends FragmentActivity {
     public static final int POST_TWEET_REQUEST = 1648;
@@ -19,6 +21,8 @@ public class TweetsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweets);
 
+        setUpNavigationTabs();
+
         /*
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -26,7 +30,24 @@ public class TweetsActivity extends FragmentActivity {
         }
         */
 
-        fragmentTweets = (TweetsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentHomeTweets);
+        //fragmentTweets = (TweetsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentHomeTweets);
+    }
+
+    private void setUpNavigationTabs() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(true);
+        Tab tabHome = actionBar.newTab()
+                .setText("Home")
+                .setTag("HomeTimelineFragment")
+                .setTabListener(new FragmentTabListener<HomeTimelineFragment>(R.id.frame_container, this, "HomeTimelineFragment", HomeTimelineFragment.class));
+        Tab tabMentions = actionBar.newTab()
+                .setText("Mentions")
+                .setTag("MentionsFragment")
+                .setTabListener(new FragmentTabListener<MentionsFragment>(R.id.frame_container, this, "MentionsFragment", MentionsFragment.class));
+        actionBar.addTab(tabHome);
+        actionBar.addTab(tabMentions);
+        actionBar.selectTab(tabHome);
     }
 
     @Override
@@ -34,6 +55,13 @@ public class TweetsActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.tweets, menu);
         return true;
+    }
+
+    public void onViewProfile(MenuItem item) {
+        // TODO
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra(ProfileActivity.SELF_PROFILE_PARAM, true);
+        startActivity(i);
     }
 
     public void onCompose(MenuItem item) {

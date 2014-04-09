@@ -6,14 +6,15 @@
     tools:context="com.codepath.apps.mytwitterapp.TweetsActivity"
     tools:ignore="MergeRootFrame" >
 
-    <fragment
-        android:id="@+id/fragmentHomeTweets"
-        android:name="com.codepath.apps.mytwitterapp.HomeTimelineFragment"
+    <FrameLayout
+        android:id="@+id/frame_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        tools:layout="@layout/fragment_tweets_list" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+    </FrameLayout>
 
 </RelativeLayout>
-

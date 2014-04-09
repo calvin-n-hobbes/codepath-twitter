@@ -4,10 +4,13 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -42,6 +45,19 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 
         // Lookup views within item layout
         ImageView ivProfile = (ImageView) convertView.findViewById(R.id.ivProfile);
+        ivProfile.setTag(Long.valueOf(user.getUserId())); // tag the image view with the corresponding user ID
+        // TODO: don't set click listener when generating tweet views for the user timeline,
+        // because user can click into the profile of the same user over and over
+        ivProfile.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // starts Profile activity for corresponding user when image is clicked
+                Intent i = new Intent(v.getContext(), ProfileActivity.class);
+                i.putExtra(ProfileActivity.SELF_PROFILE_PARAM, false);
+                i.putExtra(ProfileActivity.USER_ID_PARAM, (Long) v.getTag());
+                v.getContext().startActivity(i);
+            }
+        });
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
         TextView tvRelativeTime = (TextView) convertView.findViewById(R.id.tvRelativeTime);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);

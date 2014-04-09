@@ -11,6 +11,7 @@
     <string name="tweet_chars_remaining">%1$d character(s) remaining</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_tweets">TweetsActivity</string>
-
+    <string name="title_activity_tweets">Tweets</string>
+    <string name="title_activity_profile">View Profile</string>
+    
 </resources>

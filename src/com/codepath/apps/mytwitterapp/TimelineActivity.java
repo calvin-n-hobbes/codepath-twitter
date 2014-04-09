@@ -61,7 +61,7 @@ public class TimelineActivity extends Activity {
         if ( adapter.isEmpty() ) return;
 
         long lowestId = adapter.getItem(adapter.getCount() - 1).getTweetId();
-        MyTwitterApp.getRestClient().getHomeTimeLineWithMaxId(scrollHandler, lowestId - 1);
+        MyTwitterApp.getRestClient().getHomeTimelineWithMaxId(scrollHandler, lowestId - 1);
     }
 
     /**
@@ -69,7 +69,7 @@ public class TimelineActivity extends Activity {
      * This is called for the first time as well as subsequent refreshes, but not for scrolling/pagination updates.
      */
     private void fetchTimelineAsync() {
-        MyTwitterApp.getRestClient().getHomeTimeLine(refreshHandler);
+        MyTwitterApp.getRestClient().getHomeTimeline(refreshHandler);
     }
 
     @Override

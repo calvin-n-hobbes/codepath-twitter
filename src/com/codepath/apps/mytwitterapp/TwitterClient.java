@@ -33,30 +33,80 @@ public class TwitterClient extends OAuthBaseClient {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
     }
 
-    public void getHomeTimeLine(AsyncHttpResponseHandler handler) {
-        getHomeTimeLineWithCount(handler, FETCH_SIZE);
+    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+        getHomeTimelineWithCount(handler, FETCH_SIZE);
     }
 
-    public void getHomeTimeLineWithCount(AsyncHttpResponseHandler handler, int count) {
+    public void getHomeTimelineWithCount(AsyncHttpResponseHandler handler, int count) {
         RequestParams params = new RequestParams();
         params.put("count", String.valueOf(count));
-        getHomeTimeLine(handler, params);
+        getHomeTimeline(handler, params);
     }
 
-    public void getHomeTimeLineWithMaxId(AsyncHttpResponseHandler handler, long maxId) {
+    public void getHomeTimelineWithMaxId(AsyncHttpResponseHandler handler, long maxId) {
         RequestParams params = new RequestParams();
         params.put("max_id", String.valueOf(maxId));
-        getHomeTimeLine(handler, params);        
+        getHomeTimeline(handler, params);        
     }
 
-    private void getHomeTimeLine(AsyncHttpResponseHandler handler, RequestParams params) {
+    private void getHomeTimeline(AsyncHttpResponseHandler handler, RequestParams params) {
         String url = getApiUrl("statuses/home_timeline.json");
+        client.get(url, params, handler);
+    }
+
+    public void getMentions(AsyncHttpResponseHandler handler) {
+        getMentionsWithCount(handler, FETCH_SIZE);
+    }
+
+    private void getMentionsWithCount(AsyncHttpResponseHandler handler, int count) {
+        RequestParams params = new RequestParams();
+        params.put("count", String.valueOf(count));
+        getMentions(handler, params);
+    }
+
+    public void getMentionsWithMaxId(AsyncHttpResponseHandler handler, long maxId) {
+        RequestParams params = new RequestParams();
+        params.put("max_id", String.valueOf(maxId));
+        getMentions(handler, params);
+    }
+
+    private void getMentions(AsyncHttpResponseHandler handler, RequestParams params) {
+        String url = getApiUrl("statuses/mentions_timeline.json");
+        client.get(url, params, handler);
+    }
+
+    public void getUserTimeline(long userId, AsyncHttpResponseHandler handler) {
+        getUserTimelineWithCount(userId, handler, FETCH_SIZE);
+    }
+
+    public void getUserTimelineWithCount(long userId, AsyncHttpResponseHandler handler, int count) {
+        RequestParams params = new RequestParams();
+        params.put("count", String.valueOf(count));
+        getUserTimeline(userId, handler, params);
+    }
+
+    public void getUserTimelineWithMaxId(long userId, AsyncHttpResponseHandler handler, long maxId) {
+        RequestParams params = new RequestParams();
+        params.put("max_id", String.valueOf(maxId));
+        getUserTimeline(userId, handler, params);        
+    }
+
+    private void getUserTimeline(long userId, AsyncHttpResponseHandler handler, RequestParams params) {
+        String url = getApiUrl("statuses/user_timeline.json");
+        params.put("user_id", String.valueOf(userId));
         client.get(url, params, handler);
     }
 
     public void getCurrentUser(AsyncHttpResponseHandler handler) {
         String url = getApiUrl("account/verify_credentials.json");
         client.get(url, handler);
+    }
+
+    public void getUserInfoById(AsyncHttpResponseHandler handler, long userId) {
+        String url = getApiUrl("users/show.json");
+        RequestParams params = new RequestParams();
+        params.put("user_id", String.valueOf(userId));
+        client.get(url, params, handler);
     }
 
     public void postTweet(String body, AsyncHttpResponseHandler handler) {

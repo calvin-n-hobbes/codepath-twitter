@@ -1,18 +1,14 @@
 package com.codepath.apps.mytwitterapp;
 
-import eu.erikw.PullToRefreshListView;
-import android.os.Bundle;
-import android.util.Log;
-
-public class HomeTimelineFragment extends TweetsListFragment {
+public class MentionsFragment extends TweetsListFragment {
 
     /**
-     * Asynchronously returns tweets on the home timeline.
+     * Asynchronously returns tweets mentioning the user.
      * This is called for the first time as well as subsequent refreshes, but not for scrolling/pagination updates.
      */
     @Override
     protected void fetchTweets() {
-        MyTwitterApp.getRestClient().getHomeTimeline(this.getRefreshHandler());
+        MyTwitterApp.getRestClient().getMentions(this.getRefreshHandler());
     }
 
     /**
@@ -29,6 +25,6 @@ public class HomeTimelineFragment extends TweetsListFragment {
         if ( adapter.isEmpty() ) return;
 
         long lowestId = adapter.getItem(adapter.getCount() - 1).getTweetId();
-        MyTwitterApp.getRestClient().getHomeTimelineWithMaxId(this.getScrollHandler(), lowestId - 1);
+        MyTwitterApp.getRestClient().getMentionsWithMaxId(this.getScrollHandler(), lowestId - 1);
     }
 }

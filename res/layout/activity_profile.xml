@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context="com.codepath.apps.mytwitterapp.ProfileActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+		android:layout_marginBottom="10dp" >
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="73dp"
+            android:layout_height="73dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_profile" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivProfileImage"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="User Name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvUserTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUserName"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="User Tag Line"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvUserUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUserTagLine"
+            android:layout_centerHorizontal="true"
+	        android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="www.myurl.com"
+            android:textSize="12sp"
+            android:visibility="gone" />
+        </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llCounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="followers" />
+
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="following" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_timeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llCounts"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+    </FrameLayout>
+
+    <!-- TODO: load banner into an image view, but how to place image behind the textual header?
+    <RelativeLayout
+        android:id="@+id/rlBannerHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/ivProfileBanner"
+            android:layout_width="320dp"
+            android:layout_height="160dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="48dp"
+            android:src="@drawable/ic_launcher" />
+
+    </RelativeLayout>
+     -->
+
+</RelativeLayout>
